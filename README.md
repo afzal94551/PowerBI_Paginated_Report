@@ -37,7 +37,7 @@ just go to dataset and instaeat of add dataset click on Get Data
 // default M-code after import data from Snowflake to Power Quer
 //  I did not use any snowflake role but you can use while connecting with snowflake 
 let
-  Source = Snowflake.Databases("flkxscq-ai24339.snowflakecomputing.com", "COMPUTE_WH", [Role = null, CreateNavigationProperties = null, ConnectionTimeout = null, CommandTimeout = null, Implementation = "2.0"]),
+  Source = Snowflake.Databases("Account identifier.snowflakecomputing.com", "COMPUTE_WH", [Role = null, CreateNavigationProperties = null, ConnectionTimeout = null, CommandTimeout = null, Implementation = "2.0"]),
   #"Navigation 1" = Source{[Name = "ROYAL_LTD", Kind = "Database"]}[Data],
   #"Navigation 2" = #"Navigation 1"{[Name = "SALES", Kind = "Schema"]}[Data],
   #"Navigation 3" = #"Navigation 2"{[Name = "SALES", Kind = "Table"]}[Data]
@@ -52,7 +52,7 @@ Updated M-Code
 // Data query
 let 
 
-  Source = Snowflake.Databases(  "flkxscq-ai24339.snowflakecomputing.com",  "COMPUTE_WH", 
+  Source = Snowflake.Databases(  "Account identifier.snowflakecomputing.com",  "COMPUTE_WH", 
     [Implementation = "2.0"] ), 
 
   DB = Source{[Name = "ROYAL_LTD", Kind = "Database"]}[Data], 
@@ -103,7 +103,7 @@ we have there way to pass value in parameter in Report builder
 ``` C#
 // Fist Parameter Product_id
 let
-  Source = Snowflake.Databases("flkxscq-ai24339.snowflakecomputing.com", "COMPUTE_WH", [Role = null, CreateNavigationProperties = null, ConnectionTimeout = null, CommandTimeout = null, Implementation = "2.0"]),
+  Source = Snowflake.Databases("Account identifier.snowflakecomputing.com", "COMPUTE_WH", [Role = null, CreateNavigationProperties = null, ConnectionTimeout = null, CommandTimeout = null, Implementation = "2.0"]),
  DB = Source{[Name = "ROYAL_LTD", Kind = "Database"]}[Data],
 
 SQL= 
@@ -117,17 +117,17 @@ Result
 // Second Parameter Sales_by ( this is cascading by Product_id)
 
 let
-  Source = Snowflake.Databases("flkxscq-ai24339.snowflakecomputing.com", "COMPUTE_WH", [Role = null, CreateNavigationProperties = null, ConnectionTimeout = null, CommandTimeout = null, Implementation = "2.0"]),
+  Source = Snowflake.Databases("Account identifier.snowflakecomputing.com", "COMPUTE_WH", [Role = null, CreateNavigationProperties = null, ConnectionTimeout = null, CommandTimeout = null, Implementation = "2.0"]),
 DB = Source{[Name = "ROYAL_LTD", Kind = "Database"]}[Data],
 SQL = 
 if Product = "All"
 then
-"SELECT DISTINCT CUSTOMER_ID FROM SALES.SALES
-ORDER BY CUSTOMER_ID ASC;"
+"SELECT DISTINCT SALES_BY FROM SALES.SALES
+ORDER BY SALES_BY ASC;"
 else
-"SELECT DISTINCT CUSTOMER_ID FROM SALES.SALES
+"SELECT DISTINCT SALES_BY FROM SALES.SALES
 WHERE PRODUCT_ID in ('" & Text.Replace(Product, ",", "','") & "')
-ORDER BY CUSTOMER_ID ASC;" ,
+ORDER BY SALES_BY ASC;" ,
 
 
 Result = Value.NativeQuery(DB,SQL)
@@ -166,6 +166,7 @@ in my case I will
 1. right click on **Sales** Dataset
 2. click on Dataset Properties
 3. Add Parameter (do same as on cascading parameter dataset)
+
 
 
 
